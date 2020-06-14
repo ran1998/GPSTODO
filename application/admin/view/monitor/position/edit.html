@@ -1,0 +1,132 @@
+<form id="edit-form" class="form-horizontal form-ajax" role="form" data-toggle="validator" method="POST" action="">
+   <div>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+  
+    <li role="presentation" class="active"><a href="#img_shenfen" aria-controls="img_shenfen" role="tab" data-toggle="tab">身份证照</a></li>
+
+    <li role="presentation"><a href="#img_baoxian" aria-controls="img_baoxian" role="tab" data-toggle="tab">保险照</a></li>
+    <li role="presentation"><a href="#img_chepai" aria-controls="img_chepai" role="tab" data-toggle="tab">车牌照</a></li>
+    <li role="presentation"><a href="#img_chejia" aria-controls="img_chejia" role="tab" data-toggle="tab">车架照</a></li>
+    <li role="presentation"><a href="#img_fadongji" aria-controls="img_fadongji" role="tab" data-toggle="tab">发动机照</a></li>
+    <li role="presentation"><a href="#img_cheshen1" aria-controls="img_cheshen1" role="tab" data-toggle="tab">车身照1</a></li>
+    <li role="presentation"><a href="#img_cheshen2" aria-controls="img_cheshen2" role="tab" data-toggle="tab">车身照1</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+   
+    <div role="tabpanel" class="tab-pane active" id="img_shenfen">
+        <img src="{$row.img_shenfen}" class="img-responsive center-block" alt="Responsive image">
+    </div>
+    <div role="tabpanel" class="tab-pane" id="img_baoxian">
+        <img src="{$row.img_baoxian}" class="img-responsive center-block" alt="Responsive image">
+    </div>
+    <div role="tabpanel" class="tab-pane" id="img_chepai">
+        <img src="{$row.img_chepai}" class="img-responsive center-block" alt="Responsive image">
+    </div>
+    <div role="tabpanel" class="tab-pane" id="img_chejia">
+        <img src="{$row.img_chejia}" class="img-responsive center-block" alt="Responsive image">
+    </div>
+    <div role="tabpanel" class="tab-pane" id="img_fadongji">
+        <img src="{$row.img_fadongji}" class="img-responsive center-block" alt="Responsive image">
+    </div>
+    <div role="tabpanel" class="tab-pane" id="img_cheshen1">
+        <img src="{$row.img_cheshen1}" class="img-responsive center-block" alt="Responsive image">
+    </div>
+    <div role="tabpanel" class="tab-pane" id="img_cheshen2">
+        <img src="{$row.img_cheshen2}" class="img-responsive center-block" alt="Responsive image">
+    </div>
+
+  </div>
+
+</div>
+
+   
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">审核状态:</label>
+        <div class="col-xs-12 col-sm-8">
+            {:build_radios('row[is_pass]', ['1'=>'通过', '2'=>'不通过'], $row['is_pass'])}
+        </div>
+    </div>
+    <div id="pass-container">
+    <div class="form-group">
+        <label for="username" class="control-label col-xs-12 col-sm-2">车主姓名</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="text" class="form-control" id="cus_name" name="row[cus_name]" value="{$row.cus_name}" data-rule="required;" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">性别:</label>
+        <div class="col-xs-12 col-sm-8">
+            {:build_radios('row[sex]', ['男'=>'男', '女'=>'女'], $row['sex'])}
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="username" class="control-label col-xs-12 col-sm-2">籍贯</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="text" class="form-control" id="place" name="row[place]" value="{$row.place}" data-rule="required;" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">身份证号码</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="text" class="form-control" id="identity" name="row[identity]" value="{$row.identity}" data-rule="required;identity" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="c-birthday" class="control-label col-xs-12 col-sm-2">出生时间</label>
+        <div class="col-xs-12 col-sm-4">
+            <input id="c-birthday" data-rule="required" class="form-control datetimepicker" data-date-format="YYYY-MM-DD" data-use-current="true" name="row[birthday]" type="text" value="{$row.birthday|datetime}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">地址</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="text" class="form-control" id="addr" name="row[addr]" value="{$row.addr}" data-rule="required;addr" />
+        </div>
+    </div>
+ <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">车牌号码</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="text" class="form-control" id="car_num" name="row[car_num]" value="{$row.car_num}" data-rule="required;identity" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">车辆类型</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="text" class="form-control" id="car_type" name="row[car_type]" value="{$row.car_type}" data-rule="required;identity" />
+        </div>
+    </div>
+ <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">保险金额</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="text" class="form-control" id="baoxian_money" name="row[baoxian_money]" value="{$row.baoxian_money}" data-rule="required;identity" />
+        </div>
+    </div>
+ <div class="form-group">
+    <label for="c-pid" class="control-label col-xs-12 col-sm-2">所属分组</label>
+    <div class="col-xs-12 col-sm-8">
+        {:build_select('row[cate_id]', $cates, [$row['cate_id']])}
+    </div>
+</div>
+</div>
+<div style="display: none;" id="noPass-container">
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">备注</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="text" class="form-control" id="remark" name="row[remark]" value=""  />
+        </div>
+    </div>
+</div>
+<input type="hidden" name="row[sn]" value="{$row.sn}">
+    <div class="form-group hidden layer-footer">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed disabled">提交</button>
+            <button type="reset" class="btn btn-default btn-embossed">重置</button>
+        </div>
+    </div>
+</form>

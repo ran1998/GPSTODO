@@ -1,0 +1,54 @@
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.2&key=d57b9f334d35402807617176c660f1c3&&plugin=AMap.Geocoder,AMap.ToolBar,AMap.PlaceSearch"></script> 
+<style type="text/css">
+    .control_btn{
+        border-radius: 3px;
+        color: #666;
+        padding: 3px 6px;
+        display: inline-block;
+        cursor: pointer;
+        box-sizing: border-box;
+        font-size: 20px;
+    }
+</style>
+<div id="monitor_Div" style="width: 100%; height: 900px; position: absolute;">
+    <div style="width: 560px; float: left; height: 100%; padding-left: 10px; padding-bottom: 10px; padding-top: 10px; display: none;">
+        <ul class="table_header">
+        <li class="dot_cell1">时间</li>
+        <li class="dot_cell2">速度</li>
+        <li class="dot_cell3">定位方式</li>
+        <li class="dot_cell4">位置</li>
+    </ul>
+    <ul class="table_body">
+        <li class="table-alt"><span class="dot_cell1">2018-12-28 19:18:35</span><span class="dot_cell2">0.4km/h</span><span class="dot_cell3">北斗</span><span class="dot_cell4"><a class="show_address" style="cursor:pointer;" lng="106.953483" lat="27.720838">查看</a></span></li>
+    </ul>
+</div>
+<div style="display: table; width: 10px; float: left; height: 100%; cursor: pointer; vertical-align: middle; background-color: rgb(236, 240, 245);"><div style="display: table-cell; vertical-align: middle;"><i class="fa fa-chevron-left"></i></div></div>
+    <div id="container" class="amap-container" style="overflow: hidden; height: 100%; position: relative; cursor: url(&quot;http://webapi.amap.com/theme/v1.3/openhand.cur&quot;), default; background: rgb(252, 249, 242);">
+        <div style="position: absolute; top: 20px; left: 10px; z-index: 3000; cursor: pointer; padding: 5px; border-radius: 3px; box-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 1px; border: 1px solid rgb(210, 214, 222); background-color: white;">
+            <div style="float: left; margin: 6px 10px;">
+                <span>{$row.car_num}</span>
+            </div>
+            <div style="float: left;">
+                <form role="form" id="dataForm">
+               <!-- 日期时间范围选择代码 -->
+                    
+                    <input type="text" id="StartTime-->EndTime_id" name="datePicker" class="form-control date_control range_date_time_second" datafld="StartTime-->EndTime" placeholder="请选择回放时间段" style="width: 300px;">
+                    <input type="hidden" name="sn" value="{$row.sn}">
+                    <input type="hidden" name="startDate">
+                    <input type="hidden" name="endDate">
+                </form>
+            </div>
+            <div style="margin-left: 10px; margin-top: 6px; float: left;">
+                慢<input  id="ex1" data-slider-id="ex1Slider" type="text"
+                   data-slider-min="1000" data-slider-max="3000" data-slider-step="1"
+                   data-slider-value="1000"/>快
+            </div>
+            <!-- <div style="float: left; margin: 6px 5px 6px 10px;">
+                <span class="postion_checkbox checkbox_false_full"></span>
+                <span>包含基站点</span>
+            </div> -->
+            <a attr-type="play" class="control_btn"><i class="fa fa-play"></i></a>
+            <a attr-type="stop" class="control_btn"><i class="fa fa-stop"></i></a>
+            </div>
+    </div>
+</div>

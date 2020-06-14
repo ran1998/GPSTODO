@@ -1,0 +1,57 @@
+<script type="text/html" id="detail_html">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">
+				<span aria-hidden="true">×</span>
+				<span class="sr-only">Close</span>
+			</button>
+			<h4 class="modal-title" id="DeviceDetailsLabel">详情</h4>
+		</div>
+		<div class="modal-body form-horizontal">
+			<div id="Details_Div" class="isFormat">
+				<div class="form-group">
+					<label class="col-sm-3 control-label">所属组</label>
+					<div class="col-sm-9">
+						<span datafld="OrgName" class="form-control">${row.cate_name}</span>
+					</div>
+				</div>
+				<div class="form-group">
+						<label class="col-sm-3 control-label">设备号</label>
+						<div class="col-sm-9">
+							<span datafld="DeviceNumber" class="form-control">${row.sn}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">品牌型号</label>
+						<div class="col-sm-9">
+							<span datafld="Model" class="form-control">${row.car_model}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">车牌号</label>
+						<div class="col-sm-9">
+							<span datafld="PlateNo" class="form-control">${row.car_num}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">车主姓名</label>
+						<div class="col-sm-9">
+							<span datafld="Owner" class="form-control">${row.cus_name}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">车主电话</label>
+						<div class="col-sm-9">
+							<span datafld="Phone" class="form-control">${row.cus_iphone}</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">车辆颜色</label>
+						<div class="col-sm-9">
+							<span datafld="PlateColor" class="form-control">未知</span>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+</script>

@@ -1,0 +1,45 @@
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.2&key=d57b9f334d35402807617176c660f1c3&&plugin=AMap.Geocoder,AMap.ToolBar,AMap.PlaceSearch"></script> 
+<style type="text/css">
+    .active {
+        background-color: rgb(0, 172, 214)!important; color: rgb(255, 255, 255)!important;
+    }
+    .gray { 
+        -webkit-filter: grayscale(100%);
+        -moz-filter: grayscale(100%);
+        -ms-filter: grayscale(100%);
+        -o-filter: grayscale(100%);
+        
+        filter: grayscale(100%);
+        
+        filter: gray;
+    }
+    .checkbox{
+        margin-top: 0px!important;
+    }
+    .icon-online {
+        background: url('/assets/img/OnLine.gif');
+    }
+    .icon-offline {
+        background: url('/assets/img/OffLine.gif');        
+    }
+</style>
+<div id="monitor_Div" style="width:100%;height:802px;position:absolute;">
+    <div style="height: calc(100% - 50px);">
+        <ul id="tree" class="ztree" id="tarminal_grouptree" style="overflow: auto; height: 100%;"></ul>
+    </div>
+</div>
+{include file="monitor/position/detail" /}
+<script id="deviceList" type="text/html">
+    {@each data as item,index}
+    <li class="terminal_table_children" key="${item.sn}" row='{"sn":"${item.sn}","cus_name":"${item.cus_name}","car_num":"${item.car_num}","cus_iphone":"${item.cus_iphone}","lon":${item.lon},"lat":${item.lat},"image":"${item.image}","disabled":"${item.disabled}","battery":"${item.battery}"}' style="list-style-type: none; height: 28px; width: 100%; float: left; cursor: pointer; margin: 0px; padding: 0px;">
+        <div  column_name="Aliase" data-toggle="tooltip" data-html="true" data-placement="right" title="" style="width:100%!important;padding: 5px; float: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 150px;" data-original-title="<div style=&quot;text-align: left;word-wrap:break-word;&quot;>组&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;名</div><div style=&quot;text-align: left;word-wrap:break-word;&quot;>设备号：${item.sn}</div>">
+            <input ${item.disabled} key="${item.sn}" type="checkbox"><span class="${item.status_icon} status_icon" style="width: 16px; margin-bottom: -3px; display: inline-block; height: 16px;"></span>
+              <span >${item.car_num}</span>
+              <div column_name="LastUpdateTime" style="padding-left: 50px; display: inline-block; width: auto;">${item.statusText}
+              </div>
+            
+        </div>
+        
+    </li>
+    {@/each}
+</script>

@@ -1,0 +1,96 @@
+<div class="modal-content">
+	<div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button><h4 class="modal-title" id="handleAlarmModalLabel">贵州C89027预警处置</h4></div><div class="modal-body form-horizontal"><div id="handleAlarm_table"><div id="DataTables_Table_1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer"><div class="Add_Div" style="height: 100%;"><div>
+	<button class="btn bg-default margin single_button_TB" data-toggle="modal" data-target="#handleDo" disabled="disabled">处理报警</button>
+	<button class="btn bg-default margin single_button_TB" data-toggle="modal" data-target="#turnLost" disabled="disabled">报警转报案</button></div></div><div id="DataTables_Table_1_processing" class="dataTables_processing panel panel-default" style="display: none;">处理中...</div><div class="dataTables_scroll"><div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;"><div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 953px; padding-right: 17px;">
+	
+</div>
+</div>
+<div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 300px; width: 100%;">
+	<div class="dataTables_scroll"><div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+	<table id="table" width="100%;"></table>
+		
+	<input type="hidden" name="sn" value="{$row.sn}">
+</div></div>
+</div></div></div>
+<div class="modal-footer"></div></div>
+<div class="modal fade" id="handleDo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">处理报警</h4>
+            </div>
+            <div class="modal-body">
+            	<div class="modal-body form-horizontal"><div class="form-group has-feedback"><label for="Reason_lab" class="col-sm-2 control-label">处理类型</label><div class="col-sm-10"><select id="Reason_id" class="form-control" datafld="Reason" name="Reason_lab" data-bv-field="Reason_lab"><option value="0">未知</option><option value="1">被盗</option><option value="2">设备原因</option><option value="3">车辆挪动</option><option value="4">快递车</option><option value="5">更换电池</option></select><i class="form-control-feedback" data-bv-icon-for="Reason_lab" style="display: none;"></i></div></div></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<script type="text/javascript">
+	var sn = $('input[name="sn"]').val();
+	var _table = $('#table');
+    //初始化bootstrap table ，并且启动它
+    function init(){
+     	_table.bootstrapTable({  
+	        url: '/monitor/position/getAlertinfo?sn='+sn,
+	        method: 'get',
+	        pagination: true,  //表格底部显示分页条
+	        sidePagination: "server",
+	        escape:false, //启动转义字符
+	        pageSize: 10, //每页显示多少条数据
+	        pageNumber: 1, //初始化翻页的页码
+	        pageList: [10, 25, 50, 100],
+	        queryParamsType:'',//设置请求参数格式
+	        queryParams:function queryParams(params) {   //设自定义查询参数
+	            var param = {
+	            	pageSize: params.pageSize,   //每页多少条数据
+	            	pageIndex: params.pageNumber, // 页码
+	          
+	            };
+	            return param;
+	        },
+	        columns: [
+	        	{field: 'state', checkbox: true},
+	            {field: 'time', title: '报警时间'},
+	            {field: 'type_text', title: '报警类型'},
+	            {field: 'operate', title: '地址', table: table, formatter: function (value, row, index) {                               
+	                    return '<a onClick="showGeocoder('+row.lon+','+row.lat+',this)">查看</a>';
+	            }}
+		      ],
+		    onCheck:function(row){
+		    	var data = $(_table).bootstrapTable('getSelections');
+		    	if (data.length == 1) {
+		    		$('button').removeAttr('disabled');
+		    	} else {
+		    		$('button').attr('disabled', 'disabled');
+		    	}
+            },
+            onUncheck:function(row){
+              var data = $(_table).bootstrapTable('getSelections');
+		    	if (data.length == 1) {
+		    		$('button').removeAttr('disabled');
+		    	} else {
+		    		$('button').attr('disabled', 'disabled');
+		    	}
+            }
+
+        }); 
+    }
+    init();
+    function showGeocoder(lat, lon, othis) {
+    	var url = '/monitor/position/getAddress';
+    	var data = {lat: lat, lon: lon};
+    	$.get(url, data, function (data) {
+    		$(othis).html(data.address);
+    	}, 'json');
+    }
+   $('#handleDo').on('Shown.bs.modal',
+    function() {
+        alert('嘿，我听说您喜欢模态框...');
+    })
+
+</script>

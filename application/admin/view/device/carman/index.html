@@ -1,0 +1,82 @@
+<div class="panel panel-default panel-intro">
+    {:build_heading()}
+
+    <div class="panel-body">
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="one">
+                <div class="widget-body no-padding">
+                    <div id="toolbar" class="toolbar">
+                        {:build_toolbar('refresh,delete')}
+                        <a href="javascript:;" class="btn btn-success btn-export " title="导出保险单" id="btn-export-baoxian"><i class="fa fa-download"></i> 导出保险单                        </a>
+                    </div>
+                    <table id="table" class="table table-striped table-bordered table-hover" 
+                           data-operate-edit="{:$auth->check('auth/admin/edit')}" 
+                           data-operate-del="{:$auth->check('auth/admin/del')}" 
+                           width="100%">
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Modal -->
+   <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content"></div>
+        </div>
+    </div>
+
+</div>
+<script id="deviceDetail" type="text/html">
+    
+    <div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button><h4 class="modal-title" id="DetailModalLabel">车辆详细信息-<label id="HeaderLabel">${row.sn}</label></h4>
+    </div>
+    <div class="modal-body form-horizontal">
+        <div class="form-group has-feedback"><label class="col-sm-2 control-label">品牌型号</label>
+            <div class="col-sm-4"><span id="DetailModel_id" class="form-control">${row.car_model}</span></div><label class="col-sm-2 control-label">购车日期</label>
+            <div class="col-sm-4"><span id="DetailPurchaseDate_id" class="form-control">${row.createtime}</span></div>
+        </div>
+        <div class="form-group has-feedback" id="divVinVisable"><label class="col-sm-2 control-label">车架号</label>
+            <div class="col-sm-10 modalImg"><a href="javascript:;"><img id="DetailVinImg" height="190px" src="${row.img_chejia}"></a></div>
+        </div>
+        <div class="form-group has-feedback" id="divEinVisable" style="display: none;"><label class="col-sm-2 control-label">发动机号</label>
+            <div class="col-sm-10"><a href="javascript:;"><img id="DetailEinImg" height="190px"></a></div>
+        </div>
+        <div class="form-group has-feedback"><label class="col-sm-2 control-label">车辆图片</label>
+            <div class="col-sm-5 modalImg"><a href="javascript:;"><img id="DetailImg1" style="max-width:200px;" src="${row.img_cheshen1}"></a></div>
+            <div class="col-sm-5 modalImg"><a href="javascript:;"><img id="DetailImg2" style="max-width:200px;" src="${row.img_cheshen2}"></a></div>
+        </div>
+    </div>
+</script>
+<style type="text/css">
+    .form-control {
+        width: 160px;
+    }
+</style>
+<script id="searchformtpl" type="text/html">
+    <form action="" class="form-commonsearch">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">安装时间:</label>
+                        <input class="operate" type="hidden" data-name="createtime" value="range"/>
+                        <input id="createtime" class="form-control datetimerange" type="text" name="createtime" placeholder="安装时间" value="" />
+                    </div>
+                </div>
+               
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="form-group">
+                        <label class="control-label"></label>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <input type="submit" class="btn btn-success btn-block" value="{:__('Submit')}"/>
+                            </div>
+                            <div class="col-xs-6">
+                                <input type="reset" class="btn btn-primary btn-block" value="{:__('Reset')}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </form>
+</script>

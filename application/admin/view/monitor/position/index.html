@@ -1,0 +1,276 @@
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.2&key=d57b9f334d35402807617176c660f1c3&&plugin=AMap.Geocoder,AMap.ToolBar,AMap.PlaceSearch"></script> 
+<style type="text/css">
+    .active {
+        background-color: rgb(0, 172, 214)!important; color: rgb(255, 255, 255)!important;
+    }
+    .gray { 
+        -webkit-filter: grayscale(100%);
+        -moz-filter: grayscale(100%);
+        -ms-filter: grayscale(100%);
+        -o-filter: grayscale(100%);
+        
+        filter: grayscale(100%);
+        
+        filter: gray;
+    }
+    .checkbox{
+        margin-top: 0px!important;
+    }
+    .icon-online {
+        background: url('/assets/img/OnLine.gif');
+    }
+    .icon-offline {
+        background: url('/assets/img/OffLine.gif');        
+    }
+</style>
+<div id="monitor_Div" style="width:100%;height:802px;position:absolute;">
+    <div id="leftarea" style="width: 335px;float: left;height: 100%;padding-left: 10px;padding-bottom: 10px;padding-top: 10px">
+        <div style="height: 30%; width: 100%; margin-bottom: 5px; border-radius: 3px; background-color: white; box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 1px; border-top: 1px solid rgb(210, 214, 222);">
+            <div style="height: 40px;">
+                <div class="input-group margin"><input type="text" class="form-control" placeholder="组名"><span class="input-group-btn"><button onclick="AjaxPage()" attr-type="search" type="button" class="btn btn-info btn-flat">搜索</button></span></div>
+            </div>
+            <div style="height: calc(100% - 50px);">
+                <ul id="tree" class="ztree" id="tarminal_grouptree" style="overflow: auto; height: 100%;"></ul>
+            </div>
+        </div>
+        <div style="height: 70%; background-color: white; width: 100%; border-radius: 3px; box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 1px; border-top: 1px solid rgb(210, 214, 222);">
+            <div style="height: 30px; margin-top: 5px; padding-left: 15px; font-size: 20px; font-weight: 900;">
+                <div style="float: left;" title="遵义市智能防控系统">智能防控系统</div>
+            </div>
+            <div id="navbar" style="height: 30px; margin-top: 5px;">
+                {volist name="status" id="vo"}
+                <a key="{$key}" class="btn btn-app {if condition='!empty($vo.checked)'}active{/if}" style="padding: 5px; height: 30px; min-width: 28px; ">
+                    <span class="badge {$vo.icon} Total_span">{$vo.total}</span>{$vo.msg}
+                </a>
+                {/volist}
+            </div>
+
+            <div style="margin-top: 5px; height: 40px;">
+                <div class="input-group margin"><input type="text" class="form-control search-input" placeholder="车牌号或设备号或SIM卡号"><span class="input-group-btn"><button type="button" attr-type="search" onClick="AjaxPage()" class="btn btn-info btn-flat search-btn">搜索</button></span></div>
+            </div>
+            <div style="margin-top: 5px; height: 25px;"><a attr-type="all" class="btn btn-app monitor-btn" style="padding: 5px 20px; height: 30px; background-color: rgb(0, 172, 214); color: rgb(255, 255, 255); min-width: 55px;">监控所有</a><a class="btn btn-app monitor-btn" attr-type="current" style="padding: 5px 20px; height: 30px; margin-left: 22px; background-color: rgb(0, 172, 214); color: rgb(255, 255, 255); min-width: 55px;">监控当前页</a><a attr-type="cancel" class="btn btn-app monitor-btn" style="padding: 5px 10px; height: 30px; margin-left: 22px; background-color: rgb(0, 172, 214); color: rgb(255, 255, 255); min-width: 55px;">取消监控</a></div>
+            <div id="navdiv" style="margin-top: 5px; height: calc(100% - 210px);">
+                <ul class="monitor_ul Total_ul" key="Total" index="0" style="height: 100%; margin: 0px; padding: 0px; list-style: none; overflow: auto; display: block;">
+                    {volist name="data['rows']" id="item"}
+                        <li class="terminal_table_children" key="{$item.sn}" row='{"sn":"{$item.sn}","cus_name":"{$item.cus_name}","car_num":"{$item.car_num}","cus_iphone":"{$item.cus_iphone}","lon":{$item.lon},"lat":{$item.lat},"image":"{$item.image}","disabled":"{$item.disabled}"}' style="list-style-type: none; height: 28px; width: 100%; float: left; cursor: pointer; margin: 0px; padding: 0px;">
+                            <div column_name="Aliase" data-toggle="tooltip" data-html="true" data-placement="right" title="" style="width:100%!important;padding: 5px; float: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 150px;" data-original-title="<div style=&quot;text-align: left;word-wrap:break-word;&quot;>组&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;名</div><div style=&quot;text-align: left;word-wrap:break-word;&quot;>设备号：{$item.sn}</div>">
+                                
+                              <input {$item.disabled} key="{$item.sn}" type="checkbox"><span class="{$item.status_icon} status_icon" style="width: 16px; margin-bottom: -3px; display: inline-block; height: 16px;"></span>
+                                <span >{$item.car_num}</span>
+                                <div column_name="LastUpdateTime" style="padding-left: 50px; display: inline-block; width: auto;">{$item.statusText}
+                                </div>
+                                 
+                                
+                            </div>
+                            
+                        </li>
+                    {/volist}
+                </ul>
+                <ul class="monitor_ul Online_ul" key="Online" index="1" style="height: 100%; margin: 0px; padding: 0px; list-style: none; overflow: auto; display: none;"></ul>
+                <ul class="monitor_ul Offline_ul" key="Offline" index="2" style="height: 100%; margin: 0px; padding: 0px; list-style: none; overflow: auto; display: none;"></ul>
+                <ul class="monitor_ul Alarm_ul" key="Alarm" index="3" style="height: 100%; margin: 0px; padding: 0px; list-style: none; overflow: auto; display: none;"></ul>
+                <ul class="monitor_ul Lost_ul" key="Lost" index="4" style="height: 100%; margin: 0px; padding: 0px; list-style: none; overflow: auto; display: none;"></ul>
+                <ul class="monitor_ul Leave_ul" key="Leave" index="5" style="height: 100%; margin: 0px; padding: 0px; list-style: none; overflow: auto; display: none;"></ul>
+                <ul class="monitor_ul NotInstall_ul" key="NotInstall" index="6" style="height: 100%; margin: 0px; padding: 0px; list-style: none; overflow: auto; display: none;"></ul>
+            </div>
+            <div id="btn-wrap" style="height: 35px;">
+                {$data['page']}
+            </div>
+        </div>
+    </div>
+    <div id="shrink" style="display: table;width: 10px;float: left;height: 100%;background-color: #ecf0f5;cursor: pointer;vertical-align: middle">
+        <div style="display: table-cell; vertical-align: middle;"><i class="fa fa-chevron-left"></i></div>
+    </div>
+    <div id="container" style="height: 100%; overflow: hidden; position: relative; background: rgb(252, 249, 242); cursor: url(&quot;http://webapi.amap.com/theme/v1.3/openhand.cur&quot;), default;" class="amap-container">
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="DeviceDetails">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="alertinfo">
+        <div class="modal-dialog" style="width:800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="alertinfo-title"></h4>
+                </div>
+                <div class="modal-body form-horizontal">
+                    <div id="handleAlarm_table">
+                        <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <div class="Add_Div" style="height: 100%;"><div>
+                                <button class="btn bg-default margin single_button_TB alertinfo_btn" data-toggle="modal" data-target="#alarm_modal" disabled="disabled">处理报警</button>
+                                <button class="btn bg-default margin single_button_TB alertinfo_btn" data-toggle="modal" data-target="#turnLost" disabled="disabled">报警转报案</button>
+                            </div>
+                        </div>
+                        <div id="DataTables_Table_1_processing" class="dataTables_processing panel panel-default" style="display: none;">处理中...</div>
+                        <div class="dataTables_scroll">
+                            <table id="alertinfo_table"></table>
+                        </div>
+                        </div>
+                    </div>
+                </div><div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="alarm_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">处理报警</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body form-horizontal">
+                        <div class="form-group has-feedback"><label for="Reason_lab" class="col-sm-2 control-label">处理类型</label><div class="col-sm-10">
+                            <select id="Reason_id" class="form-control" datafld="Reason" name="Reason_lab" data-bv-field="Reason_lab"><option value="0">未知</option><option value="1">被盗</option><option value="2">设备原因</option><option value="3">车辆挪动</option><option value="4">快递车</option><option value="5">更换电池</option></select><i class="form-control-feedback" data-bv-icon-for="Reason_lab" style="display: none;"></i></div></div></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary alarm_btn">提交更改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <div class="modal fade" id="directive">
+        <div class="modal-dialog" style="width:800px;">
+            <div class="modal-content">
+                <div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="CmdModalLabel">下发</h4>
+                </div>
+                <div class="modal-body form-horizontal" style="height: 320px;"><div style="height: 300px; float: left; box-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 1px; border: 1px solid rgb(210, 214, 222); padding: 5px; width: 300px;">
+                    <ul class="ztree" id="cmd_ztree" style="overflow: auto; border-radius: 3px; height: 100%; background-color: white;">
+                    
+                    </ul>
+                </div>
+                <div style="height: 300px; padding: 5px; margin-left: 10px; float: left; width: calc(100% - 310px); border-radius: 3px; box-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 1px; border: 1px solid rgb(210, 214, 222); background-color: white;">
+                    <div class="sendbody">
+                    <div cmd="defence" class="JsonData" style="padding: 10px 20px;">
+                        <input datafld="CmdKey" style="display: none;">
+                        <input datafld="DeviceNumber" style="display: none;">
+                        <div class="form-group">
+                            <div class="radio" datafld="Defence">
+                                <label>
+                                    <input type="radio" value="1" name="Defence_radio" checked="checked">
+                                    <span style="padding-right:10px">设防</span>
+                                </label>
+                                <label>
+                                    <input type="radio" value="0" name="Defence_radio">
+                                    <span style="padding-right:10px">撤防</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div cmd="relay" style="display: none;" class="JsonData" style="padding: 10px 20px;">
+                        <input datafld="CmdKey" style="display: none;">
+                        <input datafld="DeviceNumber" style="display: none;">
+                        <div class="form-group">
+                            <div class="radio" datafld="Defence">
+                                <label>
+                                    <input type="radio" value="relayon" name="relay_radio" checked="checked">
+                                    <span style="padding-right:10px">断油</span>
+                                </label>
+                                <label>
+                                    <input type="radio" value="relayoff" name="relay_radio">
+                                    <span style="padding-right:10px">断电</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><div style="position: absolute; right: 20px; bottom: 10px;"><button type="button" class="btn btn-default directive-btn" style="">下发</button></div></div></div><div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="report">
+        <div class="modal-dialog" style="width:800px;">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="report-title"></h4>
+                </div>
+                <input type="hidden" name="sn" value="">
+                <div class="modal-body form-horizontal">
+                <div id="overLost_table">
+                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                    <div class="Add_Div" style="height: 100%;"><div>
+                        <button class="btn bg-default margin report-btn" attr-type="add" data-toggle="modal" data-target="#report-add">增加</button>
+                        <button class="btn bg-default margin single_button_TB report-btn" attr-type="edit" data-toggle="modal" data-target="#report-add" disabled="disabled">修改</button>
+                        <button class="btn bg-default margin single_button_TB report-btn" attr-type="complete" data-toggle="modal" data-target="#turnLost" disabled="disabled">结案</button>
+                    </div>
+                </div>
+                <div id="DataTables_Table_1_processing" class="dataTables_processing panel panel-default" style="display: none;">处理中...</div>
+                <div class="dataTables_scroll">
+                    <div class="dataTables_scrollBody" style="position: relative; overflow: auto; max-height: 500px; width: 100%;">
+                        <table id="report_table"></table>
+                    </div>
+                </div><div class="pageOutDiv"></div></div></div></div><div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="report-add">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="overLostModalLabel">贵州C85070报案处置</h4>
+                </div>
+                <input type="hidden" name="sn" value="">
+                <div class="modal-body form-horizontal">
+                    <div class="modal-body form-horizontal">
+                        <form id="report-addForm">
+                        <div class="form-group has-feedback">
+                            <label for="PoliceStationId_lab" class="col-sm-2 control-label">派出所</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="row[address]">
+                                <i class="form-control-feedback" data-bv-icon-for="PoliceStationId_lab" style="display: none;"></i>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label for="Reportor_lab" class="col-sm-2 control-label"><span style="color:red">*</span>报案人</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="Reportor_id" class="form-control" datafld="Reportor" name="row[reporter]" data-bv-field="Reportor_lab">
+                                <i class="form-control-feedback" data-bv-icon-for="Reportor_lab" style="display: none;"></i><small class="help-block" data-bv-validator="notEmpty" data-bv-for="Reportor_lab" data-bv-result="NOT_VALIDATED" style="display: none;">报案人不能为空</small>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label for="ReportTel_lab" class="col-sm-2 control-label"><span style="color:red">*</span>电话</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="ReportTel_id" class="form-control" datafld="ReportTel" name="row[phone]" data-bv-field="ReportTel_lab">
+                                <i class="form-control-feedback" data-bv-icon-for="ReportTel_lab" style="display: none;"></i><small class="help-block" data-bv-validator="notEmpty" data-bv-for="ReportTel_lab" data-bv-result="NOT_VALIDATED" style="display: none;">电话不能为空</small>
+                            </div>
+                        </div>
+                        <input type="hidden" name="row[sn]">
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">关闭</button><button type="button" class="btn btn-default report-confirm">确定</button></div>
+            </div>
+        </div>
+    </div>
+    
+
+</div>
+{include file="monitor/position/detail" /}
+<script id="deviceList" type="text/html">
+    {@each data as item,index}
+    <li class="terminal_table_children" key="${item.sn}" row='{"sn":"${item.sn}","cus_name":"${item.cus_name}","car_num":"${item.car_num}","cus_iphone":"${item.cus_iphone}","lon":${item.lon},"lat":${item.lat},"image":"${item.image}","disabled":"${item.disabled}","battery":"${item.battery}"}' style="list-style-type: none; height: 28px; width: 100%; float: left; cursor: pointer; margin: 0px; padding: 0px;">
+        <div  column_name="Aliase" data-toggle="tooltip" data-html="true" data-placement="right" title="" style="width:100%!important;padding: 5px; float: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 150px;" data-original-title="<div style=&quot;text-align: left;word-wrap:break-word;&quot;>组&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;名</div><div style=&quot;text-align: left;word-wrap:break-word;&quot;>设备号：${item.sn}</div>">
+            <input ${item.disabled} key="${item.sn}" type="checkbox"><span class="${item.status_icon} status_icon" style="width: 16px; margin-bottom: -3px; display: inline-block; height: 16px;"></span>
+              <span >${item.car_num}</span>
+              <div column_name="LastUpdateTime" style="padding-left: 50px; display: inline-block; width: auto;">${item.statusText}
+              </div>
+            
+        </div>
+        
+    </li>
+    {@/each}
+</script>
